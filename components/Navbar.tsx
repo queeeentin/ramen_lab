@@ -1,11 +1,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useLang } from '../i18n/LanguageContext';
+import { Lang } from '../i18n/translations';
 
-// Replace with your WeChat Official Account deep link if available
-// e.g. 'weixin://dl/officialaccounts?username=gh_XXXXXXXX'
 const WECHAT_LINK = 'weixin://';
+const LANG_CYCLE: Lang[] = ['zh', 'en', 'ja'];
+const LANG_LABEL: Record<Lang, string> = { zh: '中', en: 'EN', ja: '日' };
 
 const Navbar: React.FC = () => {
+  const { lang, setLang, t } = useLang();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
@@ -35,12 +38,17 @@ const Navbar: React.FC = () => {
     }
   };
 
+  const cycleLang = () => {
+    const next = LANG_CYCLE[(LANG_CYCLE.indexOf(lang) + 1) % LANG_CYCLE.length];
+    setLang(next);
+  };
+
   const navLinks = [
-    { id: 'courses',     label: '探索课程' },
-    { id: 'facility',    label: '实验室设备' },
-    { id: 'exhibition',  label: '前期作品展' },
-    { id: 'instructors', label: '导师团队' },
-    { id: 'alumni',      label: '全球校友' },
+    { id: 'courses',     label: t.nav.courses },
+    { id: 'facility',    label: t.nav.facility },
+    { id: 'exhibition',  label: t.nav.exhibition },
+    { id: 'instructors', label: t.nav.instructors },
+    { id: 'alumni',      label: t.nav.alumni },
   ];
 
   const QrCard = () => (
@@ -52,7 +60,6 @@ const Navbar: React.FC = () => {
           className="w-full h-full object-cover p-2 select-none"
           draggable={false}
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
-          /* Long press on mobile opens WeChat */
           onTouchStart={startLongPress}
           onTouchEnd={cancelLongPress}
           onTouchMove={cancelLongPress}
@@ -64,8 +71,8 @@ const Navbar: React.FC = () => {
         <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-red-600 pointer-events-none"></div>
       </div>
       <h4 className="text-xs font-bold text-stone-900 uppercase tracking-[0.2em] mb-1">WeChat Official</h4>
-      <p className="text-[9px] text-stone-400 uppercase tracking-widest hidden md:block">扫码咨询课程详情</p>
-      <p className="text-[9px] text-stone-400 tracking-widest md:hidden">长按打开微信</p>
+      <p className="text-[9px] text-stone-400 uppercase tracking-widest hidden md:block">{t.footer.wechatScan}</p>
+      <p className="text-[9px] text-stone-400 tracking-widest md:hidden">{t.footer.wechatLongPress}</p>
       <div className="mt-4 pt-4 border-t border-stone-50 flex items-center justify-center gap-2">
         <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
         <span className="text-[9px] font-bold text-stone-500 uppercase tracking-widest">Consultant Online</span>
@@ -93,9 +100,18 @@ const Navbar: React.FC = () => {
           {/* Right controls */}
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex flex-col items-end">
-              <span className="text-[10px] font-bold tracking-widest text-stone-400">CONTACT</span>
+              <span className="text-[10px] font-bold tracking-widest text-stone-400">{t.nav.contact}</span>
               <span className="text-sm font-bold text-stone-900">18038739931</span>
             </div>
+
+            {/* Language switcher */}
+            <button
+              onClick={cycleLang}
+              className="w-10 h-10 bg-white border border-stone-200 rounded-xl shadow-sm flex items-center justify-center text-stone-600 hover:text-red-600 hover:border-red-600 transition-all active:scale-95 font-bold text-[11px] tracking-widest"
+              aria-label="Switch language"
+            >
+              {LANG_LABEL[lang]}
+            </button>
 
             {/* WeChat QR — hover on desktop, tap on mobile */}
             <div className="group relative">
@@ -163,7 +179,7 @@ const Navbar: React.FC = () => {
           {/* Contact row */}
           <div className="mx-5 mt-3 mb-5 py-4 px-5 bg-stone-900 rounded-2xl flex items-center justify-between">
             <div>
-              <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-0.5">Contact</p>
+              <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-0.5">{t.nav.contact}</p>
               <p className="text-lg font-black text-white">18038739931</p>
             </div>
             <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-white">

@@ -2,11 +2,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { getRamenSenseiResponse } from '../services/geminiService';
 import { ChatMessage } from '../types';
+import { useLang } from '../i18n/LanguageContext';
 
 const AIConsultant: React.FC = () => {
+  const { t } = useLang();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: 'Konichiwa! I am Sensei Ramen AI. How can I help you on your culinary journey today?' }
+    { role: 'model', text: t.ai.greeting }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -40,8 +42,8 @@ const AIConsultant: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">🍜</div>
               <div>
-                <h3 className="font-bold text-sm">Sensei Ramen AI</h3>
-                <p className="text-[10px] text-red-100">AI Consultant • Online</p>
+                <h3 className="font-bold text-sm">{t.ai.title}</h3>
+                <p className="text-[10px] text-red-100">{t.ai.subtitle}</p>
               </div>
             </div>
             <button onClick={() => setIsOpen(false)} className="hover:bg-white/10 p-1 rounded">
@@ -80,7 +82,7 @@ const AIConsultant: React.FC = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Ask about courses or recipes..."
+              placeholder={t.ai.placeholder}
               className="flex-1 bg-stone-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-600"
             />
             <button 
