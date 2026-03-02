@@ -137,36 +137,38 @@ const Navbar: React.FC = () => {
         <div className="fixed inset-0 z-[79]" onClick={() => setQrOpen(false)} />
       )}
 
-      {/* Mobile drawer */}
+      {/* Mobile bottom sheet */}
       <div className={`fixed inset-0 z-[75] lg:hidden transition-all duration-300 ${mobileOpen ? 'visible' : 'invisible'}`}>
         <div
-          className={`absolute inset-0 bg-stone-900/40 backdrop-blur-sm transition-opacity duration-300 ${mobileOpen ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 bg-stone-900/50 backdrop-blur-sm transition-opacity duration-300 ${mobileOpen ? 'opacity-100' : 'opacity-0'}`}
           onClick={() => setMobileOpen(false)}
         />
-        <div className={`absolute top-0 right-0 h-full w-72 bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-out ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="flex items-center justify-between px-6 py-5 border-b border-stone-100">
-            <div className="flex items-center gap-3">
-              <div className="w-7 h-7 bg-red-600 rounded-sm flex items-center justify-center text-white font-bold text-xs font-jp">麵</div>
-              <span className="font-bold tracking-[0.2em] font-jp text-stone-900 text-sm">RAMEN LAB</span>
-            </div>
-            <button onClick={() => setMobileOpen(false)} className="text-stone-400 hover:text-red-600 transition-colors">
-              <i className="fas fa-times text-lg"></i>
-            </button>
+        <div className={`absolute bottom-0 left-0 right-0 bg-white rounded-t-[2rem] shadow-2xl transition-transform duration-300 ease-out ${mobileOpen ? 'translate-y-0' : 'translate-y-full'}`}>
+          {/* Handle */}
+          <div className="flex justify-center pt-4 pb-2">
+            <div className="w-10 h-1 bg-stone-200 rounded-full"></div>
           </div>
-          <nav className="flex-1 px-6 py-8 flex flex-col gap-1">
+          {/* Nav grid */}
+          <div className="grid grid-cols-2 gap-3 px-5 pt-4 pb-2">
             {navLinks.map(l => (
               <button
                 key={l.id}
                 onClick={() => scrollTo(l.id)}
-                className="text-left py-4 px-4 rounded-xl text-sm font-bold uppercase tracking-widest text-stone-600 hover:text-red-600 hover:bg-red-50 transition-all"
+                className="py-4 px-4 rounded-2xl bg-stone-50 text-[11px] font-bold uppercase tracking-widest text-stone-600 hover:text-red-600 hover:bg-red-50 active:scale-95 transition-all text-center"
               >
                 {l.label}
               </button>
             ))}
-          </nav>
-          <div className="px-6 py-6 border-t border-stone-100">
-            <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-1">Contact</p>
-            <p className="text-xl font-black text-stone-900">18038739931</p>
+          </div>
+          {/* Contact row */}
+          <div className="mx-5 mt-3 mb-5 py-4 px-5 bg-stone-900 rounded-2xl flex items-center justify-between">
+            <div>
+              <p className="text-[9px] font-bold text-stone-400 uppercase tracking-widest mb-0.5">Contact</p>
+              <p className="text-lg font-black text-white">18038739931</p>
+            </div>
+            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-white">
+              <i className="fas fa-phone text-sm"></i>
+            </div>
           </div>
         </div>
       </div>
