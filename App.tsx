@@ -73,7 +73,7 @@ const EnrollmentModal: React.FC<{ isOpen: boolean; onClose: () => void; courseNa
             <label className="block text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-2">所在地区</label>
             <input type="text" value={region} onChange={e => setRegion(e.target.value)} className="w-full bg-stone-50 border border-stone-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 transition-all" placeholder="例如：上海、新加坡..." />
           </div>
-          <button type="submit" disabled={submitting} className="w-full bg-stone-900 text-white py-4 rounded-xl font-bold tracking-widest uppercase text-xs hover:bg-red-600 transition-all shadow-xl shadow-stone-200 disabled:opacity-60">
+          <button type="submit" disabled={submitting} className="w-full bg-stone-900 text-white py-4 rounded-xl font-bold tracking-widest uppercase text-[10px] hover:bg-red-600 transition-all shadow-xl shadow-stone-200 disabled:opacity-60">
             {submitting ? '提交中...' : '确认申请'}
           </button>
           <p className="text-center text-[9px] text-stone-400 uppercase tracking-widest">Submit to receive detailed curriculum and logistics.</p>
@@ -227,7 +227,7 @@ const App: React.FC = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-4xl font-bold mb-10 font-jp leading-snug text-stone-900">大和精神与<br/>实验室标准的完美结合</h2>
+              <h2 className="text-4xl font-black mb-10 font-jp leading-snug text-stone-900">大和精神与<br/>实验室标准的完美结合</h2>
               <div className="space-y-10">
                 <div className="flex gap-6">
                   <div className="w-12 h-12 bg-red-50 text-red-600 flex items-center justify-center rounded-lg font-bold font-jp text-xl shrink-0">道</div>
@@ -361,7 +361,7 @@ const App: React.FC = () => {
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-16 gap-8">
             <div className="max-w-3xl">
-              <div className="text-red-600 font-bold tracking-[0.4em] text-xs mb-4 uppercase">Feedback</div>
+              <div className="text-red-600 font-bold tracking-[0.3em] text-[10px] mb-4 uppercase">Feedback</div>
               <h2 className="text-4xl md:text-6xl font-black mb-8 font-jp leading-tight">完成课程后，<br/>学员对我们的真实感受</h2>
             </div>
           </div>
@@ -377,7 +377,7 @@ const App: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex-1 border-t border-stone-100 pt-6">
-                    <p className="text-stone-600 text-[14px] leading-relaxed font-jp italic mb-6">"{story.quote}"</p>
+                    <p className="text-stone-500 text-[14px] leading-relaxed font-jp italic mb-6">"{story.quote}"</p>
                   </div>
                 </div>
               ))}
