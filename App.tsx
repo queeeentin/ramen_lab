@@ -5,7 +5,50 @@ import AIConsultant from './components/AIConsultant';
 import { COURSES, FEATURES, INSTRUCTORS, STUDENT_LOCATIONS, STUDENT_STORIES, STUDENT_WORK } from './constants';
 
 const EnrollmentModal: React.FC<{ isOpen: boolean; onClose: () => void; courseName: string }> = ({ isOpen, onClose, courseName }) => {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [region, setRegion] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
   if (!isOpen) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    const title = `🍜 新报名申请 · ${courseName}`;
+    const desp = `**课程：** ${courseName}\n\n**姓名：** ${name}\n\n**电话：** ${phone}\n\n**地区：** ${region || '未填写'}`;
+
+    fetch(`https://sctapi.ftqq.com/${process.env.SC_KEY}.send`, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ title, desp }).toString(),
+    });
+
+    setSubmitting(false);
+    setSubmitted(true);
+    setTimeout(() => {
+      setSubmitted(false);
+      setName(''); setPhone(''); setRegion('');
+      onClose();
+    }, 2500);
+  };
+
+  if (submitted) {
+    return (
+      <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-stone-900/90 backdrop-blur-md">
+        <div className="bg-white rounded-3xl p-12 text-center shadow-2xl">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i className="fas fa-check text-2xl text-green-500"></i>
+          </div>
+          <h3 className="text-xl font-bold font-jp mb-2">报名已提交</h3>
+          <p className="text-stone-400 text-sm">导师将尽快与您联系</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-stone-900/90 backdrop-blur-md animate-in fade-in duration-300">
@@ -17,21 +60,21 @@ const EnrollmentModal: React.FC<{ isOpen: boolean; onClose: () => void; courseNa
           <h3 className="text-2xl font-bold font-jp mb-2">预约报名咨询</h3>
           <p className="text-red-100 text-sm opacity-80">申请课程：{courseName}</p>
         </div>
-        <form className="p-8 space-y-6" onSubmit={(e) => { e.preventDefault(); alert('报名信息已提交，导师将尽快与您联系！'); onClose(); }}>
+        <form className="p-8 space-y-6" onSubmit={handleSubmit}>
           <div>
             <label className="block text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-2">您的姓名</label>
-            <input required type="text" className="w-full bg-stone-50 border border-stone-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 transition-all" placeholder="请输入姓名" />
+            <input required type="text" value={name} onChange={e => setName(e.target.value)} className="w-full bg-stone-50 border border-stone-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 transition-all" placeholder="请输入姓名" />
           </div>
           <div>
             <label className="block text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-2">联络电话</label>
-            <input required type="tel" className="w-full bg-stone-50 border border-stone-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 transition-all" placeholder="请输入手机号码" />
+            <input required type="tel" value={phone} onChange={e => setPhone(e.target.value)} className="w-full bg-stone-50 border border-stone-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 transition-all" placeholder="请输入手机号码" />
           </div>
           <div>
             <label className="block text-[10px] font-bold text-stone-400 uppercase tracking-widest mb-2">所在地区</label>
-            <input type="text" className="w-full bg-stone-50 border border-stone-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 transition-all" placeholder="例如：上海、新加坡..." />
+            <input type="text" value={region} onChange={e => setRegion(e.target.value)} className="w-full bg-stone-50 border border-stone-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-600 transition-all" placeholder="例如：上海、新加坡..." />
           </div>
-          <button type="submit" className="w-full bg-stone-900 text-white py-4 rounded-xl font-bold tracking-widest uppercase text-xs hover:bg-red-600 transition-all shadow-xl shadow-stone-200">
-            确认申请
+          <button type="submit" disabled={submitting} className="w-full bg-stone-900 text-white py-4 rounded-xl font-bold tracking-widest uppercase text-xs hover:bg-red-600 transition-all shadow-xl shadow-stone-200 disabled:opacity-60">
+            {submitting ? '提交中...' : '确认申请'}
           </button>
           <p className="text-center text-[9px] text-stone-400 uppercase tracking-widest">Submit to receive detailed curriculum and logistics.</p>
         </form>
