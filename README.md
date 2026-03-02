@@ -88,10 +88,21 @@ Variables are loaded from `.env.local` (gitignored) via Vite's `loadEnv`.
 
 ## Feature Flags
 
-Toggle features in [`constants.ts`](constants.ts):
+Toggle features in [`constants.ts`](constants.ts) without touching component code:
 
 ```ts
 export const FEATURES = {
   courseOutline: false,  // Show/hide the 课程大纲 button on course cards
 };
+```
+
+| Flag            | Default | Description                                      |
+|-----------------|---------|--------------------------------------------------|
+| `courseOutline` | `false` | Shows a 课程大纲 (Course Outline) button on each course card |
+
+**To add a new flag**, add a key to `FEATURES` in `constants.ts`, then gate the UI with:
+```tsx
+import { FEATURES } from './constants';
+
+{FEATURES.yourFlag && <YourComponent />}
 ```
