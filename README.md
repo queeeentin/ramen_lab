@@ -6,6 +6,8 @@
 
 React + TypeScript + Vite SPA. Live at **[ramenasia.com](https://ramenasia.com)**.
 
+> Original project on AI Studio: https://ai.studio/apps/drive/1ZUED-bMUYaN8nl8aTKiKP5YXxep3mmx0
+
 ---
 
 ## Run Locally
