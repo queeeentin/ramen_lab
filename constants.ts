@@ -1,6 +1,12 @@
 
 import { Course, Instructor, StudentStory } from './types';
 
+// ─── Feature Toggles ────────────────────────────────────────────────────────
+export const FEATURES = {
+  courseOutline: false,  // Show/hide the 课程大纲 button on course cards
+};
+// ────────────────────────────────────────────────────────────────────────────
+
 export interface DetailedCourse extends Course {
   originalPrice: string;
   curriculum: { day: string; title: string; items: string[]; bonus?: string }[];

@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Navbar from './components/Navbar';
 import AIConsultant from './components/AIConsultant';
-import { COURSES, INSTRUCTORS, STUDENT_LOCATIONS, STUDENT_STORIES, STUDENT_WORK } from './constants';
+import { COURSES, FEATURES, INSTRUCTORS, STUDENT_LOCATIONS, STUDENT_STORIES, STUDENT_WORK } from './constants';
 
 const EnrollmentModal: React.FC<{ isOpen: boolean; onClose: () => void; courseName: string }> = ({ isOpen, onClose, courseName }) => {
   if (!isOpen) return null;
@@ -40,9 +40,25 @@ const EnrollmentModal: React.FC<{ isOpen: boolean; onClose: () => void; courseNa
   );
 };
 
+const WECHAT_LINK = 'weixin://';
+
 const App: React.FC = () => {
   const [activeCourse, setActiveCourse] = useState<string | null>(null);
   const [enrollModal, setEnrollModal] = useState<{ open: boolean; course: string }>({ open: false, course: '' });
+  const footerLongPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const startFooterLongPress = () => {
+    footerLongPressTimer.current = setTimeout(() => {
+      window.location.href = WECHAT_LINK;
+    }, 600);
+  };
+
+  const cancelFooterLongPress = () => {
+    if (footerLongPressTimer.current) {
+      clearTimeout(footerLongPressTimer.current);
+      footerLongPressTimer.current = null;
+    }
+  };
 
   const rotatingStories = STUDENT_STORIES.slice(0, 6);
 
@@ -285,7 +301,9 @@ const App: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={() => setActiveCourse(activeCourse === course.id ? null : course.id)} className="flex-1 bg-stone-100 text-stone-900 py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-stone-200">课程大纲</button>
+                    {FEATURES.courseOutline && (
+                      <button onClick={() => setActiveCourse(activeCourse === course.id ? null : course.id)} className="flex-1 bg-stone-100 text-stone-900 py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-stone-200">课程大纲</button>
+                    )}
                     <button onClick={() => setEnrollModal({ open: true, course: course.title })} className="flex-1 bg-red-600 text-white py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-red-700 shadow-lg shadow-red-200">立即报名</button>
                   </div>
                 </div>
@@ -387,8 +405,13 @@ const App: React.FC = () => {
                         <img
                           src="https://i.imgur.com/48FcTsA.jpg"
                           alt="WeChat QR Code"
-                          className="w-full h-full object-cover p-2"
+                          className="w-full h-full object-cover p-2 select-none"
+                          draggable={false}
                           onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                          onTouchStart={startFooterLongPress}
+                          onTouchEnd={cancelFooterLongPress}
+                          onTouchMove={cancelFooterLongPress}
+                          onContextMenu={(e) => e.preventDefault()}
                         />
                         <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-red-600"></div>
                         <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-red-600"></div>
@@ -396,7 +419,8 @@ const App: React.FC = () => {
                         <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-red-600"></div>
                       </div>
                       <h4 className="text-xs font-bold text-stone-900 uppercase tracking-[0.2em] mb-1">WeChat Official</h4>
-                      <p className="text-[9px] text-stone-400 uppercase tracking-widest">扫码咨询课程详情</p>
+                      <p className="text-[9px] text-stone-400 uppercase tracking-widest hidden md:block">扫码咨询课程详情</p>
+                      <p className="text-[9px] text-stone-400 tracking-widest md:hidden">长按打开微信</p>
                       <div className="mt-4 pt-4 border-t border-stone-50 flex items-center justify-center gap-2">
                         <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
                         <span className="text-[9px] font-bold text-stone-500 uppercase tracking-widest">Consultant Online</span>
