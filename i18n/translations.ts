@@ -1,5 +1,7 @@
 export type Lang = 'zh' | 'en' | 'ja';
 
+// ─── UI Strings ──────────────────────────────────────────────────────────────
+
 const zh = {
   nav: {
     courses: '探索课程',
@@ -89,6 +91,70 @@ const zh = {
     placeholder: 'Ask about courses or recipes...',
     greeting: 'Konichiwa! I am Sensei Ramen AI. How can I help you on your culinary journey today?',
   },
+  // ─── Content Data ───────────────────────────────────────────────────────────
+  data: {
+    courses: [
+      {
+        title: '5日制：专业拉面"大师班"',
+        description: '全面掌握专业拉面系统。专注于标准化、实验室研发方法及门店实战执行。从零开始，培养真正的职人。',
+        curriculum: [
+          { day: '第一天', title: '制面奥义与基础理论', items: ['日式拉面概论与地域流派', '小麦粉科学：蛋白质与灰分分析', '加水率与加盐量的黄金比例', 'Yamato大和制面机实操'], bonus: undefined },
+          { day: '第二天', title: '汤底哲学与实验室炖煮', items: ['核心汤底炖煮技术', '豚骨/清汤/白汤的乳化科学', '标准化风味控制系统'], bonus: undefined },
+          { day: '第三天', title: '灵魂着味：味油与酱汁', items: ['七大招牌风味油研发', '经典配菜预处理', '脂肪与油水的深度乳化理论'], bonus: undefined },
+          { day: '第四天', title: '产品研发与副菜系统', items: ['菜单逻辑与产品线规划', '爆款单品扩充策略', '副菜研发：唐扬鸡与手工饺子'], bonus: '赠：秘制唐扬炸鸡 + 日式煎饺全套配方' },
+          { day: '第五天', title: '经营实战与门店设计', items: ['厨房动线效率优化', '成本核算与毛利控制', '海外开店及运营指南'], bonus: undefined },
+        ],
+      },
+      {
+        title: '5日制：高阶拉面"宗师班"',
+        description: '深度探索地域变体、发酵技术及复合层次汤底。专为资深从业者及现有店主设计，打造品牌核心竞争力。',
+        curriculum: [
+          { day: '第1-2天', title: '高阶发酵酱汁（Tare）', items: ['酱油发酵物理学', '多品种味增熟成与调配', '海鲜系旨味（Umami）深度提取'], bonus: undefined },
+          { day: '第3-4天', title: '混合汤底工程学', items: ['双汤头（W-Soup）黄金比例', '贝类与地鸡白汤融合', '大规模生产的一致性方案'], bonus: undefined },
+          { day: '第5天', title: '招牌菜单深度开发', items: ['通过味觉构建品牌身份', '高端食材全球供应链对接', '高阶制面：口感与吸汤率控制'], bonus: undefined },
+        ],
+      },
+      {
+        title: '3日制：日本大和资深导师特训班',
+        description: '由日本Yamato总部资深导师亲临中国 ramen lab 共同授课，针对全球拉面市场趋势、极简高效制面工艺及数字化厨政管理进行巅峰培训。',
+        curriculum: [
+          { day: '第一天', title: '数字化制面科学 (Digital Noodle Master)', items: ['通过数据复刻匠人手感', '低加水率高品质面条的稳定性控制', '全球小麦粉特性研究与适配'], bonus: undefined },
+          { day: '第二天', title: '汤底DNA与风味架构 (Flavor DNA)', items: ['极致淡丽系与浓厚系的顶尖萃取', '自动化炖煮系统的标准化落地', '零损耗厨政流程设计'], bonus: undefined },
+          { day: '第三天', title: '全球化经营与盈利逻辑 (Global Strategy)', items: ['日本总部的最新经营案例分享', '高坪效拉面店模型拆解', '全球供应链整合建议'], bonus: undefined },
+        ],
+      },
+    ],
+    instructors: [
+      { title: '创始教头 (Founding Sensei)', experience: '30年从业经验', language: '中文', bio: '曾任国内外高端日料集团总厨 30多年，传统拉面工艺与现代管理系统的集大成者。' },
+      { title: '技术总监 (Technical Director)', experience: '大和制面学校前任资深讲师', language: '英语/中文', bio: '精通Yamato制面系统，专注于面条力学与汤底基因的标准化教学。' },
+    ],
+    studentWork: [
+      { title: '浓厚豚骨拉面', desc: '完成了双汤头乳化实验，浓度达到12 Brix。' },
+      { title: '淡丽地鸡酱油拉面', desc: '探索了低温慢煮与清汤萃取的极致平衡。' },
+      { title: '秘制赤味增拉面', desc: '将传统意大利食材与熟成味增成功融合。' },
+      { title: '极致黑麻油豚骨', desc: '掌握了风味油的标准化生产流程。' },
+      { title: '横滨家系拉面', desc: '鸡油与豚骨的高压乳化实验，口感浓厚平衡。' },
+      { title: '松露盐味清汤拉面', desc: '运用分子料理思维，打造极尽纯净的汤底。' },
+    ],
+    studentStories: [
+      { region: '美国', quote: '大和的经营讲座远远超出了我的预期，真是一场精彩绝伦的课程。导师关于餐厅选址、规模和业务规划的讲解对我未来的事业大有帮助。' },
+      { region: '瑞士', quote: '我认为大和面条学校是一家能够学习所有拉面业务知识的出色公司。每天的课程都令人眼前一亮，非常有意思，是一次内容丰富、信息量极大的宝贵经历。' },
+      { region: '日本 东京', quote: '在实践课上，我学到了如何取出高品质的汤底。在制面过程中，我了解了不同种类的小麦粉会带来不同的效果，甚至1%的蛋白也会改变口感，操作比我想象中简单。' },
+      { region: '英国 伦敦', quote: '课程的深度让我惊讶。特别是关于加水率和面条延展性的实验，完全颠覆了我对传统制面的认知。数字化的管理让开店变得有据可依。' },
+      { region: '中国 上海', quote: '感谢 Peter 老师的倾囊相授。实验室标准的汤底乳化技术让我现在的店日均营业额提升了40%，口感的一致性是吸引回头客的核心。' },
+      { region: '墨西哥', quote: '将墨西哥本地食材与日式Tare酱结合是我此行最大的收获。大和的导师非常开放，鼓励我们进行跨文化的味觉实验。' },
+      { region: '法国 巴黎', quote: '在巴黎，高品质的面条很难寻找，直到我学会了使用大和制面机。现在我可以每天为客人提供新鲜、富有弹性的手工感拉面。' },
+      { region: '日本 福冈', quote: '即使是在拉面激战区博多，这里的数字化课程也让我获益匪浅。标准化不仅节省了人力，更保障了每一碗汤的高水准。' },
+      { region: '新加坡', quote: '三天的特训班含金量极高！日本总部的经营逻辑拆解非常透彻，让我们在新加坡的扩张计划变得非常清晰且具有可操作性。' },
+      { region: '意大利 罗马', quote: '作为一名意面厨师，我被日式拉面的科学体系深深吸引。折光仪测浓度的精准度让我意识到，这就是拉面职人的严谨性。' },
+      { region: '澳大利亚 悉尼', quote: '这里的课程非常实战，从设备选购到厨房动线设计，导师们给出了非常专业的建议，帮我们规避了大量的开店风险。' },
+      { region: '德国 柏林', quote: '拉面是一门精密学科。在大和面条学校，我找到了通往完美汤底的钥匙。老师对细节的执着是我们最需要学习的精神。' },
+      { region: '越南 胡志明', quote: '即使是在炎热的东南亚，只要掌握了清爽型拉面的精髓，生意依然可以非常火爆。感谢 Jason 老师对当地口味调配的耐心指导。' },
+      { region: '韩国 首尔', quote: '高阶宗师班的 Tare 酱发酵理论非常深奥。通过这次学习，我的店终于研发出了具备极强差异化的独门秘籍。' },
+      { region: '阿联酋 迪拜', quote: '在迪拜开设高端拉面馆，品质的稳定性压倒一切。大和提供的自动化炖煮系统和数字化制面标准完美解决了我们的痛点。' },
+    ],
+    studentLocations: ['美国', '加拿大', '英国', '意大利', '新加坡', '马来西亚', '泰国', '中国', '澳大利亚', '法国', '墨西哥', '日本', '韩国', '越南', '德国', '迪拜'],
+  },
 };
 
 const en: typeof zh = {
@@ -109,7 +175,7 @@ const en: typeof zh = {
   },
   philosophy: {
     h2: 'Where Japanese Spirit Meets\nLaboratory Precision',
-    quote: 'We don\'t just teach you how to make noodles — we teach you the why behind every gram.',
+    quote: "We don't just teach you how to make noodles — we teach you the why behind every gram.",
     pillars: [
       { char: '道', title: 'Logical Path', desc: 'Reject empirical guesswork. Decode every flavor dimension through chemistry and logic.' },
       { char: '器', title: 'World-Class Facilities', desc: 'Kintaro pressure cylinders, digital fryers, auto slicers — 10 industry-leading machines at your disposal.' },
@@ -179,6 +245,69 @@ const en: typeof zh = {
     subtitle: 'AI Consultant · Online',
     placeholder: 'Ask about courses or recipes...',
     greeting: 'Konichiwa! I am Sensei Ramen AI. How can I help you on your culinary journey today?',
+  },
+  data: {
+    courses: [
+      {
+        title: '5-Day: Professional Ramen "Master Class"',
+        description: 'Master the complete professional ramen system. Focused on standardization, laboratory R&D methods, and real-world store execution. Build a true craftsman from the ground up.',
+        curriculum: [
+          { day: 'Day 1', title: 'Noodle Craft Fundamentals & Theory', items: ['Introduction to Japanese ramen & regional styles', 'Wheat flour science: protein & ash content analysis', 'Hydration rate & salt ratio golden formulas', 'Yamato noodle machine hands-on operation'], bonus: undefined },
+          { day: 'Day 2', title: 'Broth Philosophy & Lab Simmering', items: ['Core broth simmering techniques', 'Emulsification science: tonkotsu / clear / white broths', 'Standardized flavor control systems'], bonus: undefined },
+          { day: 'Day 3', title: 'The Soul: Aroma Oils & Tare Sauces', items: ['Seven signature aroma oil R&D', 'Classic toppings pre-processing', 'Deep emulsification theory for fat & oil'], bonus: undefined },
+          { day: 'Day 4', title: 'Product Development & Side Dish System', items: ['Menu logic & product line planning', 'Hit-item expansion strategies', 'Side dish R&D: karaage & handmade gyoza'], bonus: 'Bonus: Secret karaage chicken + Japanese gyoza full recipe set' },
+          { day: 'Day 5', title: 'Business Operations & Store Design', items: ['Kitchen flow efficiency optimization', 'Cost accounting & gross margin control', 'Overseas store opening & operations guide'], bonus: undefined },
+        ],
+      },
+      {
+        title: '5-Day: Advanced Ramen "Grandmaster Class"',
+        description: 'Deep exploration of regional variations, fermentation techniques, and complex layered broths. Designed for experienced professionals and current store owners to build core brand competitiveness.',
+        curriculum: [
+          { day: 'Day 1–2', title: 'Advanced Fermented Tare', items: ['Soy sauce fermentation physics', 'Multi-variety miso aging & blending', 'Deep seafood umami extraction'], bonus: undefined },
+          { day: 'Day 3–4', title: 'Double Soup Engineering', items: ['W-Soup golden ratios', 'Shellfish & local chicken paitan fusion', 'Consistency protocols for large-scale production'], bonus: undefined },
+          { day: 'Day 5', title: 'Signature Menu Deep Development', items: ['Building brand identity through flavor', 'Premium ingredient global supply chain access', 'Advanced noodle-making: texture & absorption control'], bonus: undefined },
+        ],
+      },
+      {
+        title: '3-Day: Yamato Senior Instructor Intensive',
+        description: 'Senior instructors from Yamato HQ in Japan come to China\'s Ramen Lab to co-teach. Peak-level training on global ramen market trends, minimalist-efficient noodle craft, and digital kitchen management.',
+        curriculum: [
+          { day: 'Day 1', title: 'Digital Noodle Science (Digital Noodle Master)', items: ['Replicating artisan technique through data', 'Stability control for low-hydration, high-quality noodles', 'Global wheat flour characteristics research & adaptation'], bonus: undefined },
+          { day: 'Day 2', title: 'Broth DNA & Flavor Architecture (Flavor DNA)', items: ['Premium chintan & kotteri extraction at the highest level', 'Standardized implementation of automated simmering systems', 'Zero-waste kitchen flow design'], bonus: undefined },
+          { day: 'Day 3', title: 'Global Operations & Profit Logic (Global Strategy)', items: ['Latest business case studies from Japan HQ', 'High-seat-efficiency ramen store model breakdown', 'Global supply chain integration recommendations'], bonus: undefined },
+        ],
+      },
+    ],
+    instructors: [
+      { title: 'Founding Sensei', experience: '30+ Years of Industry Experience', language: 'Chinese', bio: 'Former executive chef at premium Japanese restaurant groups across Asia for over 30 years — the definitive master of traditional ramen craft and modern management systems.' },
+      { title: 'Technical Director', experience: 'Former Senior Instructor, Yamato Noodle School', language: 'English / Chinese', bio: 'Specialist in the Yamato noodle system, focused on standardized teaching of noodle mechanics and broth DNA.' },
+    ],
+    studentWork: [
+      { title: 'Rich Tonkotsu Ramen', desc: 'Completed double-soup emulsification experiment, achieving 12 Brix concentration.' },
+      { title: 'Delicate Chicken Shoyu Ramen', desc: 'Explored the ultimate balance between sous vide and clear broth extraction.' },
+      { title: 'Secret Red Miso Ramen', desc: 'Successfully fused traditional Italian ingredients with aged miso.' },
+      { title: 'Ultimate Black Sesame Oil Tonkotsu', desc: 'Mastered the standardized production process for signature aroma oils.' },
+      { title: 'Yokohama Ie-kei Ramen', desc: 'High-pressure emulsification of chicken fat and tonkotsu — rich, perfectly balanced.' },
+      { title: 'Truffle Shio Clear Broth Ramen', desc: 'Applied molecular gastronomy thinking to craft an exceptionally pure broth.' },
+    ],
+    studentStories: [
+      { region: 'USA', quote: "Yamato's business seminar far exceeded my expectations — a truly spectacular course. The instructor's guidance on restaurant location, scale, and business planning will be invaluable for my career ahead." },
+      { region: 'Switzerland', quote: 'I believe Yamato Noodle School is an outstanding organization where you can learn everything about the ramen business. Every session was eye-opening and highly engaging — an incredibly rich and information-dense experience.' },
+      { region: 'Tokyo, Japan', quote: 'In the practical sessions, I learned how to extract high-quality broth. I discovered that different wheat flours produce different results — even a 1% protein difference changes the texture. The process was simpler than I imagined.' },
+      { region: 'London, UK', quote: 'The depth of the curriculum surprised me. The experiments on hydration rate and noodle extensibility completely overturned my understanding of traditional noodle-making. Digital management gives you a concrete, data-driven foundation.' },
+      { region: 'Shanghai, China', quote: 'Thank you to Instructor Peter for sharing everything so generously. The lab-standard broth emulsification technique has increased my store\'s daily revenue by 40%. Flavor consistency is the core of what brings customers back.' },
+      { region: 'Mexico', quote: 'Combining local Mexican ingredients with Japanese tare was my biggest takeaway. The Yamato instructors are very open-minded and actively encourage cross-cultural flavor experimentation.' },
+      { region: 'Paris, France', quote: 'In Paris, high-quality noodles were hard to find — until I learned to use the Yamato noodle machine. Now I can offer my customers fresh, springy, handmade-style ramen every day.' },
+      { region: 'Fukuoka, Japan', quote: 'Even in Hakata, the epicenter of ramen, this digital curriculum was enormously valuable. Standardization saves labor and guarantees that every bowl meets the highest standard.' },
+      { region: 'Singapore', quote: 'The 3-day intensive was incredibly high-value! The breakdown of Japan HQ\'s business logic was thorough and clear, making our Singapore expansion plan very concrete and actionable.' },
+      { region: 'Rome, Italy', quote: 'As a pasta chef, I was deeply drawn to the scientific system behind Japanese ramen. Using a refractometer to measure broth concentration made me realize — this is the rigor of a true craftsman.' },
+      { region: 'Sydney, Australia', quote: 'The course is extremely hands-on. From equipment selection to kitchen layout design, the instructors gave highly professional advice that helped us avoid a huge number of costly opening mistakes.' },
+      { region: 'Berlin, Germany', quote: "Ramen is a precise science. At Yamato Noodle School, I found the key to perfect broth. The instructor's obsession with detail is the spirit we all need to learn from." },
+      { region: 'Ho Chi Minh City, Vietnam', quote: 'Even in the heat of Southeast Asia, if you master the essence of a refreshing ramen style, business can absolutely boom. Thank you to Instructor Jason for his patient guidance on local flavor adaptation.' },
+      { region: 'Seoul, Korea', quote: 'The advanced tare fermentation theory in the Grandmaster class was deeply sophisticated. Through this experience, my shop finally developed a uniquely differentiated secret formula.' },
+      { region: 'Dubai, UAE', quote: 'Running a premium ramen restaurant in Dubai, consistency in quality is everything. The automated simmering system and digital noodle standards from Yamato perfectly solved our pain points.' },
+    ],
+    studentLocations: ['USA', 'Canada', 'UK', 'Italy', 'Singapore', 'Malaysia', 'Thailand', 'China', 'Australia', 'France', 'Mexico', 'Japan', 'Korea', 'Vietnam', 'Germany', 'Dubai'],
   },
 };
 
@@ -271,7 +400,122 @@ const ja: typeof zh = {
     placeholder: 'コースやレシピについて質問...',
     greeting: 'こんにちは！Sensei Ramen AIです。ラーメン職人への旅についてご質問はありますか？',
   },
+  data: {
+    courses: [
+      {
+        title: '5日間：プロフェッショナル ラーメン「マスタークラス」',
+        description: 'プロの拉麺システムを完全習得。標準化・ラボ研究手法・実店舗運営に特化。ゼロから本物の職人を育成します。',
+        curriculum: [
+          { day: '1日目', title: '製麺の奥義と基礎理論', items: ['日本式ラーメン概論と地域流派', '小麦粉科学：タンパク質と灰分の分析', '加水率と加塩量のゴールデンレシオ', 'Yamato製麺機の実習操作'], bonus: undefined },
+          { day: '2日目', title: 'スープ哲学とラボ炊き出し', items: ['コアスープ炊き出し技術', '豚骨・清湯・白湯の乳化科学', '標準化された風味管理システム'], bonus: undefined },
+          { day: '3日目', title: '魂の調味：香り油とタレ', items: ['7種の看板香り油の研究開発', '定番トッピングの下処理', '油脂と乳化の深層理論'], bonus: undefined },
+          { day: '4日目', title: '商品開発とサイドメニューシステム', items: ['メニュー設計と商品ラインの計画', 'ヒット商品の拡充戦略', 'サイドメニュー研究：唐揚げと手作り餃子'], bonus: '特典：秘製唐揚げ＋日式餃子 完全レシピセット' },
+          { day: '5日目', title: '経営実戦と店舗設計', items: ['厨房動線の効率最適化', 'コスト計算と粗利管理', '海外出店・運営ガイドライン'], bonus: undefined },
+        ],
+      },
+      {
+        title: '5日間：上級ラーメン「宗師クラス」',
+        description: '地域バリエーション・発酵技術・複合スープの深層探求。経験豊富な業界関係者と現役店主向けに設計された、ブランドの核となる競争力を構築するコース。',
+        curriculum: [
+          { day: '1〜2日目', title: '高度な発酵タレ', items: ['醤油発酵の物理学', '複数品種の味噌熟成とブレンド', '海鮮旨味の深部抽出'], bonus: undefined },
+          { day: '3〜4日目', title: 'ダブルスープ工学', items: ['W-Soupのゴールデン比率', '貝類と地鶏白湯の融合', '大規模生産の一貫性プロトコル'], bonus: undefined },
+          { day: '5日目', title: '看板メニューの深度開発', items: ['風味を通じたブランドアイデンティティの構築', 'プレミアム食材グローバルサプライチェーンへのアクセス', '上級製麺：食感と吸汁率の制御'], bonus: undefined },
+        ],
+      },
+      {
+        title: '3日間：大和上級インストラクター特別集中トレーニング',
+        description: '日本の大和本社から上級インストラクターが中国のラーメンラボに来訪し合同授業を実施。グローバルラーメン市場のトレンド、ミニマル効率製麺技術、デジタルキッチン管理についての最高峰トレーニング。',
+        curriculum: [
+          { day: '1日目', title: 'デジタル製麺科学 (Digital Noodle Master)', items: ['データで職人の感覚を再現する', '低加水率・高品質麺の安定性制御', 'グローバル小麦粉特性の研究と適応'], bonus: undefined },
+          { day: '2日目', title: 'スープDNAと風味アーキテクチャ (Flavor DNA)', items: ['淡麗系・濃厚系の最高峰抽出技術', '自動炊き出しシステムの標準化実装', 'ゼロロス厨房フロー設計'], bonus: undefined },
+          { day: '3日目', title: 'グローバル経営と収益ロジック (Global Strategy)', items: ['大和本社からの最新経営事例共有', '高坪効ラーメン店モデルの分解', 'グローバルサプライチェーン統合の提言'], bonus: undefined },
+        ],
+      },
+    ],
+    instructors: [
+      { title: '創設者 シェフインストラクター', experience: '30年以上の業界経験', language: '中国語', bio: '国内外の高級日本料理グループで30年以上総料理長を歴任。伝統的なラーメン技術と現代的な経営システムを体系化した第一人者。' },
+      { title: 'テクニカルディレクター', experience: '大和製麺学校 元上級講師', language: '英語・中国語', bio: 'Yamato製麺システムの専門家。麺の力学とスープDNAの標準化教育に特化。' },
+    ],
+    studentWork: [
+      { title: '濃厚豚骨ラーメン', desc: 'ダブルスープ乳化実験を完了、濃度12 Brixを達成。' },
+      { title: '淡麗地鶏醤油ラーメン', desc: '低温調理と清湯抽出の究極のバランスを探求。' },
+      { title: '秘製赤味噌ラーメン', desc: 'イタリア食材と熟成味噌の融合に成功。' },
+      { title: '究極の黒麻油豚骨', desc: '香り油の標準化生産プロセスをマスター。' },
+      { title: '横浜家系ラーメン', desc: '鶏油と豚骨の高圧乳化実験。濃厚かつ均整のとれた味わい。' },
+      { title: 'トリュフ塩清湯ラーメン', desc: '分子ガストロノミーの発想で、極限まで純粋なスープを構築。' },
+    ],
+    studentStories: [
+      { region: 'アメリカ', quote: '大和の経営セミナーは期待をはるかに上回るものでした。本当に素晴らしいコースです。レストランの立地・規模・事業計画についての講師の説明は、今後のキャリアに非常に役立つものでした。' },
+      { region: 'スイス', quote: '大和麺学校はラーメンビジネスのすべてを学べる素晴らしい会社だと思います。毎日の授業が新鮮な驚きに満ちており、内容が豊富で情報量も多く、貴重な経験でした。' },
+      { region: '東京・日本', quote: '実習で高品質なスープの取り方を学びました。製麺では小麦粉の種類によって結果が変わること、1%のタンパク質の違いでさえ食感が変わることを知りました。操作は想像より簡単でした。' },
+      { region: 'ロンドン・イギリス', quote: 'カリキュラムの深さに驚きました。加水率と麺の延展性に関する実験は、伝統的な製麺に対する私の認識を完全に覆しました。デジタル管理のアプローチで、出店に向けた確かな根拠が得られます。' },
+      { region: '上海・中国', quote: 'Peter先生が惜しみなく教えてくださったことに感謝します。ラボ基準のスープ乳化技術により、店の日次売上が40%向上しました。味の一貫性こそが、リピーターを生む核心です。' },
+      { region: 'メキシコ', quote: 'メキシコの地元食材を日式タレと組み合わせることが、今回最大の収穫でした。大和の講師はとてもオープンで、異文化をまたいだ味覚実験を積極的に奨励してくれました。' },
+      { region: 'パリ・フランス', quote: 'パリでは高品質な麺を見つけるのが難しかった——大和製麺機の使い方を学ぶまでは。今では毎日、新鮮でコシのある手作り感覚のラーメンをお客様に提供できています。' },
+      { region: '福岡・日本', quote: 'ラーメン激戦区の博多でさえ、このデジタルカリキュラムは非常に有益でした。標準化により人件費を削減しつつ、すべてのスープが高水準であることを保証できます。' },
+      { region: 'シンガポール', quote: '3日間の特訓はコスパが非常に高かったです！大和本社の経営ロジックの解説が非常に詳細で、シンガポールでの拡張計画が具体的かつ実行可能なものになりました。' },
+      { region: 'ローマ・イタリア', quote: 'パスタ料理人として、日本式ラーメンの科学体系に深く魅了されました。屈折計でスープの濃度を測定することで、これがラーメン職人の厳格さだと気づきました。' },
+      { region: 'シドニー・オーストラリア', quote: 'コースは非常に実践的です。設備の選定から厨房レイアウトの設計まで、講師陣は専門的なアドバイスをくれ、多くの出店リスクを回避する助けになりました。' },
+      { region: 'ベルリン・ドイツ', quote: 'ラーメンは精密な科学です。大和麺学校で、完璧なスープへの鍵を見つけました。細部へのこだわりこそ、私たちが最も学ぶべき精神です。' },
+      { region: 'ホーチミン・ベトナム', quote: '暑い東南アジアでも、さっぱり系ラーメンの真髄をマスターすれば、ビジネスは大いに繁盛できます。地元の味への丁寧な指導をしてくださったJason先生に感謝します。' },
+      { region: 'ソウル・韓国', quote: '宗師クラスのタレ発酵理論は非常に奥深いものでした。この学習を通じて、ようやく強い差別化を持つ独自の秘伝レシピを開発することができました。' },
+      { region: 'ドバイ・UAE', quote: 'ドバイで高級ラーメン店を運営する上で、品質の安定性は何よりも重要です。大和の自動炊き出しシステムとデジタル製麺基準が、私たちの悩みを完璧に解決してくれました。' },
+    ],
+    studentLocations: ['アメリカ', 'カナダ', 'イギリス', 'イタリア', 'シンガポール', 'マレーシア', 'タイ', '中国', 'オーストラリア', 'フランス', 'メキシコ', '日本', '韓国', 'ベトナム', 'ドイツ', 'ドバイ'],
+  },
 };
 
 export const translations = { zh, en, ja };
 export type Translations = typeof zh;
+
+// ─── Static (non-translatable) data ─────────────────────────────────────────
+// Images, prices, IDs — same across all languages.
+// Merged with t.data.courses[i] / t.data.instructors[i] etc. in components.
+export const STATIC = {
+  courses: [
+    { id: 'c1', image: 'https://imgur.com/1IgopFB.jpg', price: '¥8,800', originalPrice: '¥12,800', category: 'Workshop' as const, featured: false },
+    { id: 'c2', image: 'https://imgur.com/5Dbnwpx.jpg', price: '¥15,800', originalPrice: '¥19,800', category: 'Professional' as const, featured: true },
+    { id: 'c3', image: 'https://www.yamatonoodle.com/wp-content/uploads/2025/03/banner-front2.jpg', price: '¥18,500', originalPrice: '¥25,800', category: 'Intensive' as const, featured: false },
+  ],
+  instructors: [
+    { id: 'i1', name: 'Master Peter Kim', image: 'https://imgur.com/bnB715C.jpg' },
+    { id: 'i2', name: 'Master Jason Lin', image: 'https://imgur.com/xWVnrEp.jpg' },
+  ],
+  studentWork: [
+    { student: '和田一平 (福冈)', image: 'https://imgur.com/WpbPNsF.jpg' },
+    { student: 'Kenji T. (Tokyo)', image: 'https://imgur.com/tEuAixe.jpg' },
+    { student: 'soba (usa)', image: 'https://imgur.com/2BHmImi.jpg' },
+    { student: 'mr.li . (CHINA)', image: 'https://imgur.com/VBGdQhl.jpg' },
+    { student: 'Wang J. (GLOBLE)', image: 'https://imgur.com/B3sqeuL.jpg' },
+    { student: 'DANBO. (GLOBLE)', image: 'https://imgur.com/NNqjR99.jpg' },
+  ],
+  studentStories: [
+    { id: 's1',  name: 'Cusack',    businessName: 'Sendai Ramen Specialist', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200' },
+    { id: 's2',  name: 'Betz',      businessName: 'Swiss Noodle Art',        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200' },
+    { id: 's3',  name: '小松',      businessName: 'Komatsu Ramen Lab',       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200' },
+    { id: 's4',  name: 'Thompson',  businessName: 'London Slurp',            image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200' },
+    { id: 's5',  name: '王明',      businessName: '匠心拉面馆',              image: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&q=80&w=200' },
+    { id: 's6',  name: 'Gomez',     businessName: 'Taco-Ramen Fusion',       image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=200' },
+    { id: 's7',  name: 'Pierre',    businessName: "L'Art du Ramen",          image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200' },
+    { id: 's8',  name: 'Sato',      businessName: 'Hakata Soul',             image: 'https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?auto=format&fit=crop&q=80&w=200' },
+    { id: 's9',  name: 'Lim',       businessName: 'Umami Express',           image: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&q=80&w=200' },
+    { id: 's10', name: 'Elena',     businessName: 'Pasta & Ramen',           image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200' },
+    { id: 's11', name: 'Chen',      businessName: 'Sydney Slurp',            image: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&q=80&w=200' },
+    { id: 's12', name: 'Niklas',    businessName: 'Berlin Ramen Lab',        image: 'https://images.unsplash.com/photo-1506803682981-6e718a9dd3ee?auto=format&fit=crop&q=80&w=200' },
+    { id: 's13', name: 'Nguyen',    businessName: 'Saigon Ramen',            image: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&q=80&w=200' },
+    { id: 's14', name: 'Lee',       businessName: 'Seoul Noodle House',      image: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&q=80&w=200' },
+    { id: 's15', name: 'Al-Sayed',  businessName: 'Desert Umami',            image: 'https://images.unsplash.com/photo-1463453091185-61582044d556?auto=format&fit=crop&q=80&w=200' },
+  ],
+  facilityIcons: [
+    'fa-utensils', 'fa-cog', 'fa-atom', 'fa-temperature-high',
+    'fa-layer-group', 'fa-plug', 'fa-cut', 'fa-bolt', 'fa-microchip', 'fa-tachometer-alt',
+  ],
+  facilityImages: [
+    'https://imgur.com/CkoTPi6.jpg', 'https://imgur.com/StjtSuK.jpg',
+    'https://imgur.com/L0DScHU.jpg', 'https://imgur.com/U65rcLo.jpg',
+    'https://imgur.com/Pxs9mUs.jpg', 'https://imgur.com/ZMk0rW6.jpg',
+    'https://imgur.com/U65rcLo.jpg', 'https://imgur.com/ZPtv1cv.jpg',
+    'https://imgur.com/R7bLoCK.jpg', 'https://imgur.com/7fhPKo5.jpg',
+  ],
+};
+// ────────────────────────────────────────────────────────────────────────────

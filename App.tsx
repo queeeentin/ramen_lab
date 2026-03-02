@@ -2,7 +2,8 @@
 import React, { useState, useRef } from 'react';
 import Navbar from './components/Navbar';
 import AIConsultant from './components/AIConsultant';
-import { COURSES, FEATURES, INSTRUCTORS, STUDENT_STORIES, STUDENT_WORK } from './constants';
+import { FEATURES } from './constants';
+import { STATIC, translations } from './i18n/translations';
 import { useLang } from './i18n/LanguageContext';
 
 // Renders a string with \n as <br/> elements
@@ -17,7 +18,7 @@ const Nl2br: React.FC<{ text: string }> = ({ text }) => (
   </>
 );
 
-const EnrollmentModal: React.FC<{ isOpen: boolean; onClose: () => void; courseName: string }> = ({ isOpen, onClose, courseName }) => {
+const EnrollmentModal: React.FC<{ isOpen: boolean; onClose: () => void; courseIdx: number }> = ({ isOpen, onClose, courseIdx }) => {
   const { t } = useLang();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -27,12 +28,16 @@ const EnrollmentModal: React.FC<{ isOpen: boolean; onClose: () => void; courseNa
 
   if (!isOpen) return null;
 
+  // Always notify in Chinese regardless of display language
+  const notifyTitle = translations.zh.data.courses[courseIdx]?.title ?? '';
+  const displayTitle = t.data.courses[courseIdx]?.title ?? '';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
 
-    const title = `🍜 新报名申请 · ${courseName}`;
-    const desp = `**课程：** ${courseName}\n\n**姓名：** ${name}\n\n**电话：** ${phone}\n\n**地区：** ${region || '未填写'}`;
+    const title = `🍜 新报名申请 · ${notifyTitle}`;
+    const desp = `**课程：** ${notifyTitle}\n\n**姓名：** ${name}\n\n**电话：** ${phone}\n\n**地区：** ${region || '未填写'}`;
 
     fetch(`https://sctapi.ftqq.com/${process.env.SC_KEY}.send`, {
       method: 'POST',
@@ -72,7 +77,7 @@ const EnrollmentModal: React.FC<{ isOpen: boolean; onClose: () => void; courseNa
             <i className="fas fa-times text-xl"></i>
           </button>
           <h3 className="text-2xl font-bold font-jp mb-2">{t.modal.title}</h3>
-          <p className="text-red-100 text-sm opacity-80">{t.modal.subtitle}{courseName}</p>
+          <p className="text-red-100 text-sm opacity-80">{t.modal.subtitle}{displayTitle}</p>
         </div>
         <form className="p-8 space-y-6" onSubmit={handleSubmit}>
           <div>
@@ -99,28 +104,10 @@ const EnrollmentModal: React.FC<{ isOpen: boolean; onClose: () => void; courseNa
 
 const WECHAT_LINK = 'weixin://';
 
-const FACILITY_ICONS = [
-  'fa-utensils', 'fa-cog', 'fa-atom', 'fa-temperature-high',
-  'fa-layer-group', 'fa-plug', 'fa-cut', 'fa-bolt', 'fa-microchip', 'fa-tachometer-alt',
-];
-
-const FACILITY_IMAGES = [
-  'https://imgur.com/CkoTPi6.jpg',
-  'https://imgur.com/StjtSuK.jpg',
-  'https://imgur.com/L0DScHU.jpg',
-  'https://imgur.com/U65rcLo.jpg',
-  'https://imgur.com/Pxs9mUs.jpg',
-  'https://imgur.com/ZMk0rW6.jpg',
-  'https://imgur.com/U65rcLo.jpg',
-  'https://imgur.com/ZPtv1cv.jpg',
-  'https://imgur.com/R7bLoCK.jpg',
-  'https://imgur.com/7fhPKo5.jpg',
-];
-
 const App: React.FC = () => {
   const { t } = useLang();
   const [activeCourse, setActiveCourse] = useState<string | null>(null);
-  const [enrollModal, setEnrollModal] = useState<{ open: boolean; course: string }>({ open: false, course: '' });
+  const [enrollModal, setEnrollModal] = useState<{ open: boolean; courseIdx: number }>({ open: false, courseIdx: 0 });
   const footerLongPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const startFooterLongPress = () => {
@@ -136,13 +123,10 @@ const App: React.FC = () => {
     }
   };
 
-  const rotatingStories = STUDENT_STORIES.slice(0, 6);
+  const rotatingStories = STATIC.studentStories.slice(0, 6);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -151,8 +135,8 @@ const App: React.FC = () => {
 
       <EnrollmentModal
         isOpen={enrollModal.open}
-        onClose={() => setEnrollModal({ open: false, course: '' })}
-        courseName={enrollModal.course}
+        onClose={() => setEnrollModal({ open: false, courseIdx: 0 })}
+        courseIdx={enrollModal.courseIdx}
       />
 
       {/* Hero Section */}
@@ -197,7 +181,7 @@ const App: React.FC = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-4xl font-black mb-10 font-jp leading-snug text-stone-900" style={{ whiteSpace: 'pre-line' }}>
+              <h2 className="text-4xl font-black mb-10 font-jp leading-snug text-stone-900">
                 <Nl2br text={t.philosophy.h2} />
               </h2>
               <div className="space-y-10">
@@ -224,15 +208,14 @@ const App: React.FC = () => {
             <div className="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
             <p className="text-stone-400 tracking-[0.3em] text-[10px] font-bold uppercase text-center">{t.facility.subtitle}</p>
           </div>
-
           <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 gap-6">
             {t.facility.items.map((f, i) => (
               <div key={i} className="group overflow-hidden rounded-3xl bg-stone-50 border border-stone-100 flex flex-col hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
                 <div className="aspect-[4/3] overflow-hidden bg-stone-200 flex items-center justify-center relative">
-                  {FACILITY_IMAGES[i] ? (
-                    <img src={FACILITY_IMAGES[i]} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt={f.title} />
+                  {STATIC.facilityImages[i] ? (
+                    <img src={STATIC.facilityImages[i]} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt={f.title} />
                   ) : (
-                    <i className={`fas ${FACILITY_ICONS[i]} text-5xl text-stone-400 opacity-40`}></i>
+                    <i className={`fas ${STATIC.facilityIcons[i]} text-5xl text-stone-400 opacity-40`}></i>
                   )}
                 </div>
                 <div className="p-5 flex-1 flex flex-col">
@@ -240,9 +223,7 @@ const App: React.FC = () => {
                     <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
                     <h4 className="font-bold text-stone-900 font-jp text-sm leading-tight">{f.title}</h4>
                   </div>
-                  <p className="text-stone-500 text-[10px] leading-relaxed uppercase tracking-widest mt-auto">
-                    {f.desc}
-                  </p>
+                  <p className="text-stone-500 text-[10px] leading-relaxed uppercase tracking-widest mt-auto">{f.desc}</p>
                 </div>
               </div>
             ))}
@@ -259,19 +240,22 @@ const App: React.FC = () => {
         </div>
         <div className="relative">
           <div className="animate-marquee gap-8 px-4">
-            {[...STUDENT_WORK, ...STUDENT_WORK].map((work, idx) => (
-              <div key={idx} className="w-[320px] group cursor-pointer shrink-0">
-                <div className="aspect-[3/4] rounded-2xl overflow-hidden mb-4 relative shadow-2xl border border-white/5 bg-stone-900">
-                  <img src={work.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={work.title} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
-                    <p className="text-xs text-stone-300 mb-2">{work.desc}</p>
-                    <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">Lab Data View →</span>
+            {[...STATIC.studentWork, ...STATIC.studentWork].map((work, idx) => {
+              const lw = t.data.studentWork[idx % STATIC.studentWork.length];
+              return (
+                <div key={idx} className="w-[320px] group cursor-pointer shrink-0">
+                  <div className="aspect-[3/4] rounded-2xl overflow-hidden mb-4 relative shadow-2xl border border-white/5 bg-stone-900">
+                    <img src={work.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={lw.title} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+                      <p className="text-xs text-stone-300 mb-2">{lw.desc}</p>
+                      <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">Lab Data View →</span>
+                    </div>
                   </div>
+                  <h4 className="text-md font-bold font-jp mb-1 px-2">{lw.title}</h4>
+                  <p className="text-stone-500 text-[10px] font-bold tracking-widest uppercase px-2">{work.student}</p>
                 </div>
-                <h4 className="text-md font-bold font-jp mb-1 px-2">{work.title}</h4>
-                <p className="text-stone-500 text-[10px] font-bold tracking-widest uppercase px-2">{work.student}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-stone-950 to-transparent pointer-events-none z-10"></div>
           <div className="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-stone-950 to-transparent pointer-events-none z-10"></div>
@@ -287,36 +271,37 @@ const App: React.FC = () => {
             <p className="text-stone-400 tracking-[0.3em] text-[10px] font-bold uppercase">{t.courses.subtitle}</p>
           </div>
           <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {COURSES.map((course) => (
-              <div key={course.id} className={`bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col group border relative ${course.id === 'c2' ? 'border-stone-400 shadow-xl shadow-stone-200/50 lg:scale-[1.02]' : 'border-stone-200'}`}>
-                <div className="h-72 overflow-hidden relative">
-                  <img src={course.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt={course.title} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60"></div>
-                  <div className="absolute bottom-6 left-6 right-6 text-white">
-                    <h3 className="text-xl font-bold font-jp leading-tight">{course.title}</h3>
-                  </div>
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <div className="mb-6 flex-1">
-                    <p className="text-stone-500 text-xs leading-relaxed mb-4">{course.description}</p>
-                    <div className="flex flex-col items-start gap-0.5 mt-auto">
-                      <div className="text-red-600 text-3xl font-black font-jp tracking-tighter">{course.price}</div>
+            {STATIC.courses.map((course, i) => {
+              const lc = t.data.courses[i];
+              return (
+                <div key={course.id} className={`bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col group border relative ${course.featured ? 'border-stone-400 shadow-xl shadow-stone-200/50 lg:scale-[1.02]' : 'border-stone-200'}`}>
+                  <div className="h-72 overflow-hidden relative">
+                    <img src={course.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" alt={lc.title} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60"></div>
+                    <div className="absolute bottom-6 left-6 right-6 text-white">
+                      <h3 className="text-xl font-bold font-jp leading-tight">{lc.title}</h3>
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    {FEATURES.courseOutline && (
-                      <button onClick={() => setActiveCourse(activeCourse === course.id ? null : course.id)} className="flex-1 bg-stone-100 text-stone-900 py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-stone-200">{t.courses.outline}</button>
-                    )}
-                    <button onClick={() => setEnrollModal({ open: true, course: course.title })} className="flex-1 bg-red-600 text-white py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-red-700 shadow-lg shadow-red-200">{t.courses.enroll}</button>
+                  <div className="p-6 flex-1 flex flex-col">
+                    <div className="mb-6 flex-1">
+                      <p className="text-stone-500 text-xs leading-relaxed mb-4">{lc.description}</p>
+                      <div className="text-red-600 text-3xl font-black font-jp tracking-tighter">{course.price}</div>
+                    </div>
+                    <div className="flex gap-2">
+                      {FEATURES.courseOutline && (
+                        <button onClick={() => setActiveCourse(activeCourse === course.id ? null : course.id)} className="flex-1 bg-stone-100 text-stone-900 py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-stone-200">{t.courses.outline}</button>
+                      )}
+                      <button onClick={() => setEnrollModal({ open: true, courseIdx: i })} className="flex-1 bg-red-600 text-white py-4 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-red-700 shadow-lg shadow-red-200">{t.courses.enroll}</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Global Alumni Section */}
+      {/* Alumni Section */}
       <section id="alumni" className="py-24 bg-stone-950 text-white scroll-mt-24 overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-16 gap-8">
@@ -329,20 +314,23 @@ const App: React.FC = () => {
           </div>
           <div className="relative">
             <div className="animate-marquee gap-8 px-4">
-              {[...rotatingStories, ...rotatingStories].map((story, idx) => (
-                <div key={`${story.id}-${idx}`} className="w-[380px] bg-white text-stone-900 rounded-[2.5rem] p-10 flex flex-col shadow-2xl transition-all hover:-translate-y-2 duration-500 group cursor-default shrink-0">
-                  <div className="flex items-center gap-5 mb-8">
-                    <img src={story.image} className="w-16 h-16 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all border-2 border-stone-100" alt={story.name} />
-                    <div>
-                      <h4 className="text-lg font-bold font-jp leading-none mb-1.5">{story.name} 様</h4>
-                      <p className="text-red-600 text-[9px] font-bold uppercase tracking-[0.2em]">{story.region}</p>
+              {[...rotatingStories, ...rotatingStories].map((story, idx) => {
+                const ls = t.data.studentStories[idx % rotatingStories.length];
+                return (
+                  <div key={`${story.id}-${idx}`} className="w-[380px] bg-white text-stone-900 rounded-[2.5rem] p-10 flex flex-col shadow-2xl transition-all hover:-translate-y-2 duration-500 group cursor-default shrink-0">
+                    <div className="flex items-center gap-5 mb-8">
+                      <img src={story.image} className="w-16 h-16 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all border-2 border-stone-100" alt={story.name} />
+                      <div>
+                        <h4 className="text-lg font-bold font-jp leading-none mb-1.5">{story.name} 様</h4>
+                        <p className="text-red-600 text-[9px] font-bold uppercase tracking-[0.2em]">{ls.region}</p>
+                      </div>
+                    </div>
+                    <div className="flex-1 border-t border-stone-100 pt-6">
+                      <p className="text-stone-500 text-[14px] leading-relaxed font-jp italic mb-6">"{ls.quote}"</p>
                     </div>
                   </div>
-                  <div className="flex-1 border-t border-stone-100 pt-6">
-                    <p className="text-stone-500 text-[14px] leading-relaxed font-jp italic mb-6">"{story.quote}"</p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <div className="absolute inset-y-0 left-0 w-64 bg-gradient-to-r from-stone-950 to-transparent pointer-events-none z-10"></div>
             <div className="absolute inset-y-0 right-0 w-64 bg-gradient-to-l from-stone-950 to-transparent pointer-events-none z-10"></div>
@@ -357,17 +345,21 @@ const App: React.FC = () => {
             <h2 className="text-4xl font-black mb-6 font-jp tracking-tight text-stone-900">{t.instructors.h2}</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-            {INSTRUCTORS.map((inst) => (
-              <div key={inst.id} className="flex flex-col md:flex-row gap-8 items-center md:items-start group">
-                <div className="w-56 h-72 rounded-2xl overflow-hidden shrink-0 shadow-xl border-4 border-white bg-stone-100">
-                  <img src={inst.image} className="w-full h-full object-cover" alt={inst.name} />
+            {STATIC.instructors.map((inst, i) => {
+              const li = t.data.instructors[i];
+              return (
+                <div key={inst.id} className="flex flex-col md:flex-row gap-8 items-center md:items-start group">
+                  <div className="w-56 h-72 rounded-2xl overflow-hidden shrink-0 shadow-xl border-4 border-white bg-stone-100">
+                    <img src={inst.image} className="w-full h-full object-cover" alt={inst.name} />
+                  </div>
+                  <div>
+                    <h4 className="text-3xl font-bold text-stone-900 mb-2 font-jp">{inst.name}</h4>
+                    <p className="text-stone-400 text-xs font-bold tracking-widest uppercase mb-3">{li.title}</p>
+                    <p className="text-stone-500 text-sm leading-relaxed border-l-2 border-stone-100 pl-6">{li.bio}</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-3xl font-bold text-stone-900 mb-2 font-jp">{inst.name}</h4>
-                  <p className="text-stone-500 text-sm leading-relaxed border-l-2 border-stone-100 pl-6">{inst.bio}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -381,9 +373,7 @@ const App: React.FC = () => {
                 <div className="w-10 h-10 bg-red-600 text-white flex items-center justify-center font-bold font-jp text-lg">麵</div>
                 <span className="text-2xl font-black tracking-[0.2em] font-jp text-stone-900">RAMEN LAB</span>
               </div>
-              <p className="text-stone-400 text-[10px] font-bold tracking-[0.2em] uppercase leading-loose">
-                {t.footer.tagline}
-              </p>
+              <p className="text-stone-400 text-[10px] font-bold tracking-[0.2em] uppercase leading-loose">{t.footer.tagline}</p>
             </div>
             <div>
               <h5 className="font-bold text-stone-900 mb-6 text-xs tracking-widest uppercase">{t.footer.quickLinks}</h5>
@@ -394,7 +384,6 @@ const App: React.FC = () => {
                 <li><button onClick={() => scrollToSection('alumni')} className="hover:text-red-600 transition-colors uppercase">{t.nav.alumni}</button></li>
               </ul>
             </div>
-
             <div>
               <h5 className="font-bold text-stone-900 mb-6 text-xs tracking-widest uppercase">{t.footer.contactTitle}</h5>
               <p className="text-3xl font-black text-stone-900 mb-4">18038739931</p>
@@ -403,7 +392,6 @@ const App: React.FC = () => {
                   <div className="w-24 h-24 bg-white border border-red-600 p-1.5 rounded-xl shadow-sm hover:shadow-md transition-shadow shrink-0 overflow-hidden cursor-pointer flex items-center justify-center text-stone-300 hover:text-red-600">
                     <i className="fab fa-weixin text-5xl"></i>
                   </div>
-                  {/* QR Code Popup Card */}
                   <div className="absolute bottom-full left-0 mb-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-[90]">
                     <div className="bg-white p-6 shadow-2xl border border-stone-100 rounded-[2rem] w-64 text-center ring-1 ring-black/5">
                       <div className="w-full aspect-square bg-stone-50 mb-4 rounded-2xl overflow-hidden border border-stone-100 flex items-center justify-center relative">
@@ -439,9 +427,7 @@ const App: React.FC = () => {
                     <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
                     {t.footer.wechatLabel}
                   </p>
-                  <p className="text-[9px] text-stone-500 uppercase tracking-widest leading-relaxed whitespace-pre-line">
-                    {t.footer.wechatDesc}
-                  </p>
+                  <p className="text-[9px] text-stone-500 uppercase tracking-widest leading-relaxed whitespace-pre-line">{t.footer.wechatDesc}</p>
                 </div>
               </div>
             </div>

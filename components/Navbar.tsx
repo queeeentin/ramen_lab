@@ -4,14 +4,18 @@ import { useLang } from '../i18n/LanguageContext';
 import { Lang } from '../i18n/translations';
 
 const WECHAT_LINK = 'weixin://';
-const LANG_CYCLE: Lang[] = ['zh', 'en', 'ja'];
-const LANG_LABEL: Record<Lang, string> = { zh: '中', en: 'EN', ja: '日' };
+const LANG_OPTIONS: { value: Lang; label: string; full: string }[] = [
+  { value: 'zh', label: '中', full: '中文' },
+  { value: 'en', label: 'EN', full: 'English' },
+  { value: 'ja', label: '日', full: '日本語' },
+];
 
 const Navbar: React.FC = () => {
   const { lang, setLang, t } = useLang();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -36,11 +40,6 @@ const Navbar: React.FC = () => {
       clearTimeout(longPressTimer.current);
       longPressTimer.current = null;
     }
-  };
-
-  const cycleLang = () => {
-    const next = LANG_CYCLE[(LANG_CYCLE.indexOf(lang) + 1) % LANG_CYCLE.length];
-    setLang(next);
   };
 
   const navLinks = [
@@ -105,13 +104,33 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Language switcher */}
-            <button
-              onClick={cycleLang}
-              className="w-10 h-10 bg-white border border-stone-200 rounded-xl shadow-sm flex items-center justify-center text-stone-600 hover:text-red-600 hover:border-red-600 transition-all active:scale-95 font-bold text-[11px] tracking-widest"
-              aria-label="Switch language"
-            >
-              {LANG_LABEL[lang]}
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => setLangOpen(o => !o)}
+                className="w-10 h-10 bg-white border border-stone-200 rounded-xl shadow-sm flex items-center justify-center text-stone-600 hover:text-red-600 hover:border-red-600 transition-all active:scale-95 font-bold text-[11px] tracking-widest"
+                aria-label="Switch language"
+              >
+                {LANG_OPTIONS.find(o => o.value === lang)?.label}
+              </button>
+              {langOpen && (
+                <div className="absolute top-full right-0 mt-2 bg-white border border-stone-200 rounded-2xl shadow-xl overflow-hidden z-[90] min-w-[110px]">
+                  {LANG_OPTIONS.map(opt => (
+                    <button
+                      key={opt.value}
+                      onClick={() => { setLang(opt.value); setLangOpen(false); }}
+                      className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-[11px] font-bold tracking-widest transition-colors
+                        ${lang === opt.value
+                          ? 'bg-red-50 text-red-600'
+                          : 'text-stone-600 hover:bg-stone-50 hover:text-red-600'
+                        }`}
+                    >
+                      <span className="w-5 text-center">{opt.label}</span>
+                      <span className="text-stone-400 font-normal">{opt.full}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* WeChat QR — hover on desktop, tap on mobile */}
             <div className="group relative">
@@ -151,6 +170,11 @@ const Navbar: React.FC = () => {
       {/* Backdrop to close QR popup on mobile tap-outside */}
       {qrOpen && (
         <div className="fixed inset-0 z-[79]" onClick={() => setQrOpen(false)} />
+      )}
+
+      {/* Backdrop to close lang dropdown on tap-outside */}
+      {langOpen && (
+        <div className="fixed inset-0 z-[79]" onClick={() => setLangOpen(false)} />
       )}
 
       {/* Mobile bottom sheet */}
